@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+
+
+{% block tittle %}Kopi4{% endblock %}
+
+{% block content %}
+<div class="bg-white">
+    <!-- Content -->
+    <main class="my-28">
+        <div class="container mx-auto px-6">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">New arrival</h2>
+            <div class="swiper-container mt-6 h-64 w-full rounded-md overflow-hidden bg-cover bg-center">
+                <div class="swiper-wrapper">
+                    {% for product in latest_products %}
+                    <div class="swiper-slide h-64 bg-cover bg-center" style="background-image: url('{{ product.image.url }}')">
+                        <div class="bg-gray-900 bg-opacity-30 flex items-center h-full">
+                            <div class="px-10 max-w-xl">
+                                <h2 class="text-3xl text-white font-semibold">{{ product.name }}</h2>
+                                <p class="my-6 text-white">{{ product.description|truncatewords:20 }}</p>
+                                <a href="{% url 'product:detail' product.id %}" class="flex items-center mt-4 px-3 py-2 bg-blue-700 text-white w-40 text-sm uppercase font-medium rounded-lg hover:bg-blue-800 focus:outline-none focus:bg-blue-500">
+                                    <span>Shop Now</span>
+                                    <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="bg-white z-0">
+                <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-7xl">
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900">Produk</h2>
+                    <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
+                        {% for product in products %}
+                        <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="{{ product.image.url }}" alt="Coffee" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="{% url 'product:detail' product.id %}">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{ product.name }}
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
+                            </div>
+                            {% load l10n %}
+                            <p class="text-sm font-medium text-gray-900">Rp. {{ product.price|localize }}</p>
+                        </div>
+                        </div>
+                        {% endfor %}
+                
+                        <!-- More products... -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-gray-200">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-gray-500 hover:text-gray-400">Brand</a>
+            <p class="py-2 text-gray-500 sm:py-0">All rights reserved</p>
+        </div>
+    </footer>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    // Initialize Swiper
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        autoplay: {
+            delay: 5000, // Slide every 10 seconds
+            disableOnInteraction: false, // Allow interaction to keep autoplay running
+        },
+    });
+</script>
+{% endblock %}
