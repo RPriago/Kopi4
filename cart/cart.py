@@ -11,6 +11,29 @@ class Cart():
         
         self.cart = cart
     
+    def cart_total(self):
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        quantities = self.cart
+        total = 0
+        for key, value in quantities.items():
+            key = int(key)
+            for product in products:
+                if product.id == key:
+                    total = total + (product.price * value)
+
+        return total
+    
+    def tax_total(self):
+        subtotal = self.cart_total()
+        tax = subtotal * 0.10  # 10% dari total harga
+        return tax
+
+    def grand_total(self):
+        subtotal = self.cart_total()
+        tax = self.tax_total()
+        return subtotal + tax
+    
     def add(self, product, quantity):
         product_id = str(product.id)
         product_qty = str(quantity)
@@ -19,7 +42,7 @@ class Cart():
             pass
         else:
            # self.cart[product.id] = {'price': str(product.price)}
-            self.cart[product.id] = int(product_qty)
+            self.cart[product_id] = int(product_qty)
         
         self.session.modified = True
     
@@ -37,15 +60,20 @@ class Cart():
         return quantities
     
     def update(self, product, quantity):
-        product_id = str(product.id)  # Ensure product_id is a string for consistent keys
-        if product_id in self.cart:
-            if isinstance(self.cart[product_id], dict):  # Check if it's a dictionary
-                self.cart[product_id]['quantity'] = quantity
-            else:
-                # In case it's an integer (incorrectly set), convert it to a dict
-                self.cart[product_id] = {'quantity': quantity}
-        else:
-            # Handle case where the product is not in the cart yet
-            self.cart[product_id] = {'quantity': quantity}
+        product_id = str(product)
+        product_qty = int(quantity)
+
+        ourcart = self.cart
+        ourcart[product_id] = product_qty
+
+        self.session.modified = True
+        thing = self.cart
+        return thing
     
+    def delete(self, product):
+        product_id = str(product)
+        if product_id in self.cart:
+            del self.cart[product_id]
+        
+        self.session.modified = True
     

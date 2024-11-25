@@ -7,6 +7,9 @@ from django.contrib.auth.views import LoginView as AuthLoginView
 from .forms import SignupForm, LoginForm
 from django.contrib import messages
 
+def search(request):
+    return render(request, 'search.html', {})
+
 def home(request):
     products = Product.objects.filter(is_sold=False)
     latest_products = Product.objects.order_by('-date_added')[:3]

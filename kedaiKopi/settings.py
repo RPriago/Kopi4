@@ -22,6 +22,9 @@ LOGOUT_LOGOUT = '/'
 
 USE_THOUSAND_SEPARATOR = True
 
+STRIPE_SECRET_KEY = 'sk_test_51QOsyME4fgQgpDduffqoMt9CsyLIrCPgsgXZrIoTbsHwSnTEQM6WWJtYYsEbU7MzIklC0PAThVO8SfzkuypZ8RzV00glKIcrY4'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51QOsyME4fgQgpDduVTT4EMFrfgpkdH9hmUkAXnZYfsudSf56o69bUdQShOkjeUqE9Z8zfcsEP6wGENbmBk3zxKmp00Ya7fJFsW'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +40,7 @@ INSTALLED_APPS = [
     'product',
     'cart',
     'admin_honeypot',
+    'payment',
 ]
 
 TAILWIND_APP_NAME = 'theme'
